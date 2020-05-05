@@ -1,0 +1,702 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="tp2bd2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Candidatures">
+          <Key>
+            <PropertyRef Name="candidature_id" />
+          </Key>
+          <Property Name="candidature_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stage_id" Type="int" Nullable="false" />
+          <Property Name="da" Type="int" Nullable="false" />
+          <Property Name="cv_id" Type="int" Nullable="false" />
+          <Property Name="est_accepter" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Compagnies">
+          <Key>
+            <PropertyRef Name="compagnie_id" />
+          </Key>
+          <Property Name="compagnie_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="personne_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cvs">
+          <Key>
+            <PropertyRef Name="cv_id" />
+          </Key>
+          <Property Name="cv_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="da" Type="int" Nullable="false" />
+          <Property Name="CV" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Etudiants">
+          <Key>
+            <PropertyRef Name="da" />
+          </Key>
+          <Property Name="da" Type="int" Nullable="false" />
+          <Property Name="personne_id" Type="int" Nullable="false" />
+          <Property Name="superviseurs_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="logs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="action_type" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="date_action" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personnes">
+          <Key>
+            <PropertyRef Name="personne_id" />
+          </Key>
+          <Property Name="personne_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prenom" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="nom" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Stages">
+          <Key>
+            <PropertyRef Name="stage_id" />
+          </Key>
+          <Property Name="stage_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="compagnie_id" Type="int" Nullable="false" />
+          <Property Name="poste" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="lieux" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="date_debut" Type="date" Nullable="false" />
+          <Property Name="date_fin" Type="date" Nullable="false" />
+          <Property Name="salaire" Type="float" Nullable="false" />
+          <Property Name="heure_semaine" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="4000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Superviseurs">
+          <Key>
+            <PropertyRef Name="superviseurs_id" />
+          </Key>
+          <Property Name="superviseurs_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="personne_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Telephones">
+          <Key>
+            <PropertyRef Name="personne_id" />
+          </Key>
+          <Property Name="personne_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numero" Type="int" Nullable="false" />
+          <Property Name="id_type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Types_Telephones">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="id_type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="Cvs_da">
+          <End Role="Etudiants" Type="Self.Etudiants" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cvs" Type="Self.Cvs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etudiants">
+              <PropertyRef Name="da" />
+            </Principal>
+            <Dependent Role="Cvs">
+              <PropertyRef Name="da" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatures_cv_id">
+          <End Role="Cvs" Type="Self.Cvs" Multiplicity="1" />
+          <End Role="Candidatures" Type="Self.Candidatures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cvs">
+              <PropertyRef Name="cv_id" />
+            </Principal>
+            <Dependent Role="Candidatures">
+              <PropertyRef Name="cv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatures_da">
+          <End Role="Etudiants" Type="Self.Etudiants" Multiplicity="1" />
+          <End Role="Candidatures" Type="Self.Candidatures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etudiants">
+              <PropertyRef Name="da" />
+            </Principal>
+            <Dependent Role="Candidatures">
+              <PropertyRef Name="da" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatures_stage_id">
+          <End Role="Stages" Type="Self.Stages" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Candidatures" Type="Self.Candidatures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stages">
+              <PropertyRef Name="stage_id" />
+            </Principal>
+            <Dependent Role="Candidatures">
+              <PropertyRef Name="stage_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Compagnies_compagnie_id">
+          <End Role="Personnes" Type="Self.Personnes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Compagnies" Type="Self.Compagnies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnes">
+              <PropertyRef Name="personne_id" />
+            </Principal>
+            <Dependent Role="Compagnies">
+              <PropertyRef Name="personne_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Etudiants_personne_id">
+          <End Role="Personnes" Type="Self.Personnes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Etudiants" Type="Self.Etudiants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnes">
+              <PropertyRef Name="personne_id" />
+            </Principal>
+            <Dependent Role="Etudiants">
+              <PropertyRef Name="personne_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Etudiants_superviseurs_id">
+          <End Role="Superviseurs" Type="Self.Superviseurs" Multiplicity="1" />
+          <End Role="Etudiants" Type="Self.Etudiants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superviseurs">
+              <PropertyRef Name="superviseurs_id" />
+            </Principal>
+            <Dependent Role="Etudiants">
+              <PropertyRef Name="superviseurs_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stages_compagnie_id">
+          <End Role="Compagnies" Type="Self.Compagnies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stages" Type="Self.Stages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnies">
+              <PropertyRef Name="compagnie_id" />
+            </Principal>
+            <Dependent Role="Stages">
+              <PropertyRef Name="compagnie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Superviseurs_persomnne_id">
+          <End Role="Personnes" Type="Self.Personnes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Superviseurs" Type="Self.Superviseurs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnes">
+              <PropertyRef Name="personne_id" />
+            </Principal>
+            <Dependent Role="Superviseurs">
+              <PropertyRef Name="personne_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Telephones_id_type">
+          <End Role="Types_Telephones" Type="Self.Types_Telephones" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Telephones" Type="Self.Telephones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types_Telephones">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="Telephones">
+              <PropertyRef Name="id_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tp2bd2ModelStoreContainer">
+          <EntitySet Name="Candidatures" EntityType="Self.Candidatures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Compagnies" EntityType="Self.Compagnies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cvs" EntityType="Self.Cvs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Etudiants" EntityType="Self.Etudiants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="logs" EntityType="Self.logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personnes" EntityType="Self.Personnes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stages" EntityType="Self.Stages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Superviseurs" EntityType="Self.Superviseurs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Telephones" EntityType="Self.Telephones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Types_Telephones" EntityType="Self.Types_Telephones" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Cvs_da" Association="Self.Cvs_da">
+            <End Role="Etudiants" EntitySet="Etudiants" />
+            <End Role="Cvs" EntitySet="Cvs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatures_cv_id" Association="Self.FK_Candidatures_cv_id">
+            <End Role="Cvs" EntitySet="Cvs" />
+            <End Role="Candidatures" EntitySet="Candidatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatures_da" Association="Self.FK_Candidatures_da">
+            <End Role="Etudiants" EntitySet="Etudiants" />
+            <End Role="Candidatures" EntitySet="Candidatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatures_stage_id" Association="Self.FK_Candidatures_stage_id">
+            <End Role="Stages" EntitySet="Stages" />
+            <End Role="Candidatures" EntitySet="Candidatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Compagnies_compagnie_id" Association="Self.FK_Compagnies_compagnie_id">
+            <End Role="Personnes" EntitySet="Personnes" />
+            <End Role="Compagnies" EntitySet="Compagnies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Etudiants_personne_id" Association="Self.FK_Etudiants_personne_id">
+            <End Role="Personnes" EntitySet="Personnes" />
+            <End Role="Etudiants" EntitySet="Etudiants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Etudiants_superviseurs_id" Association="Self.FK_Etudiants_superviseurs_id">
+            <End Role="Superviseurs" EntitySet="Superviseurs" />
+            <End Role="Etudiants" EntitySet="Etudiants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stages_compagnie_id" Association="Self.FK_Stages_compagnie_id">
+            <End Role="Compagnies" EntitySet="Compagnies" />
+            <End Role="Stages" EntitySet="Stages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Superviseurs_persomnne_id" Association="Self.FK_Superviseurs_persomnne_id">
+            <End Role="Personnes" EntitySet="Personnes" />
+            <End Role="Superviseurs" EntitySet="Superviseurs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Telephones_id_type" Association="Self.FK_Telephones_id_type">
+            <End Role="Types_Telephones" EntitySet="Types_Telephones" />
+            <End Role="Telephones" EntitySet="Telephones" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="tp2bd2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Candidature">
+          <Key>
+            <PropertyRef Name="candidature_id" />
+          </Key>
+          <Property Name="candidature_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stage_id" Type="Int32" Nullable="false" />
+          <Property Name="da" Type="Int32" Nullable="false" />
+          <Property Name="cv_id" Type="Int32" Nullable="false" />
+          <Property Name="est_accepter" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cv" Relationship="Self.FK_Candidatures_cv_id" FromRole="Candidatures" ToRole="Cvs" />
+          <NavigationProperty Name="Etudiant" Relationship="Self.FK_Candidatures_da" FromRole="Candidatures" ToRole="Etudiants" />
+          <NavigationProperty Name="Stage" Relationship="Self.FK_Candidatures_stage_id" FromRole="Candidatures" ToRole="Stages" />
+        </EntityType>
+        <EntityType Name="Compagny">
+          <Key>
+            <PropertyRef Name="compagnie_id" />
+          </Key>
+          <Property Name="compagnie_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="personne_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Personne" Relationship="Self.FK_Compagnies_compagnie_id" FromRole="Compagnies" ToRole="Personnes" />
+          <NavigationProperty Name="Stages" Relationship="Self.FK_Stages_compagnie_id" FromRole="Compagnies" ToRole="Stages" />
+        </EntityType>
+        <EntityType Name="Cv">
+          <Key>
+            <PropertyRef Name="cv_id" />
+          </Key>
+          <Property Name="cv_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="da" Type="Int32" Nullable="false" />
+          <Property Name="CV1" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Candidatures" Relationship="Self.FK_Candidatures_cv_id" FromRole="Cvs" ToRole="Candidatures" />
+          <NavigationProperty Name="Etudiant" Relationship="Self.Cvs_da" FromRole="Cvs" ToRole="Etudiants" />
+        </EntityType>
+        <EntityType Name="Etudiant">
+          <Key>
+            <PropertyRef Name="da" />
+          </Key>
+          <Property Name="da" Type="Int32" Nullable="false" />
+          <Property Name="personne_id" Type="Int32" Nullable="false" />
+          <Property Name="superviseurs_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Candidatures" Relationship="Self.FK_Candidatures_da" FromRole="Etudiants" ToRole="Candidatures" />
+          <NavigationProperty Name="Cvs" Relationship="Self.Cvs_da" FromRole="Etudiants" ToRole="Cvs" />
+          <NavigationProperty Name="Personne" Relationship="Self.FK_Etudiants_personne_id" FromRole="Etudiants" ToRole="Personnes" />
+          <NavigationProperty Name="Superviseur" Relationship="Self.FK_Etudiants_superviseurs_id" FromRole="Etudiants" ToRole="Superviseurs" />
+        </EntityType>
+        <EntityType Name="log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="action_type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_action" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Personne">
+          <Key>
+            <PropertyRef Name="personne_id" />
+          </Key>
+          <Property Name="personne_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prenom" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Compagnies" Relationship="Self.FK_Compagnies_compagnie_id" FromRole="Personnes" ToRole="Compagnies" />
+          <NavigationProperty Name="Etudiants" Relationship="Self.FK_Etudiants_personne_id" FromRole="Personnes" ToRole="Etudiants" />
+          <NavigationProperty Name="Superviseurs" Relationship="Self.FK_Superviseurs_persomnne_id" FromRole="Personnes" ToRole="Superviseurs" />
+        </EntityType>
+        <EntityType Name="Stage">
+          <Key>
+            <PropertyRef Name="stage_id" />
+          </Key>
+          <Property Name="stage_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="compagnie_id" Type="Int32" Nullable="false" />
+          <Property Name="poste" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lieux" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_debut" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date_fin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="salaire" Type="Double" Nullable="false" />
+          <Property Name="heure_semaine" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Candidatures" Relationship="Self.FK_Candidatures_stage_id" FromRole="Stages" ToRole="Candidatures" />
+          <NavigationProperty Name="Compagny" Relationship="Self.FK_Stages_compagnie_id" FromRole="Stages" ToRole="Compagnies" />
+        </EntityType>
+        <EntityType Name="Superviseur">
+          <Key>
+            <PropertyRef Name="superviseurs_id" />
+          </Key>
+          <Property Name="superviseurs_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="personne_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Etudiants" Relationship="Self.FK_Etudiants_superviseurs_id" FromRole="Superviseurs" ToRole="Etudiants" />
+          <NavigationProperty Name="Personne" Relationship="Self.FK_Superviseurs_persomnne_id" FromRole="Superviseurs" ToRole="Personnes" />
+        </EntityType>
+        <EntityType Name="Telephone">
+          <Key>
+            <PropertyRef Name="personne_id" />
+          </Key>
+          <Property Name="personne_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero" Type="Int32" Nullable="false" />
+          <Property Name="id_type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Types_Telephones" Relationship="Self.FK_Telephones_id_type" FromRole="Telephones" ToRole="Types_Telephones" />
+        </EntityType>
+        <EntityType Name="Types_Telephones">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="id_type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Telephones" Relationship="Self.FK_Telephones_id_type" FromRole="Types_Telephones" ToRole="Telephones" />
+        </EntityType>
+        <Association Name="FK_Candidatures_cv_id">
+          <End Role="Cvs" Type="Self.Cv" Multiplicity="1" />
+          <End Role="Candidatures" Type="Self.Candidature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cvs">
+              <PropertyRef Name="cv_id" />
+            </Principal>
+            <Dependent Role="Candidatures">
+              <PropertyRef Name="cv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatures_da">
+          <End Role="Etudiants" Type="Self.Etudiant" Multiplicity="1" />
+          <End Role="Candidatures" Type="Self.Candidature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etudiants">
+              <PropertyRef Name="da" />
+            </Principal>
+            <Dependent Role="Candidatures">
+              <PropertyRef Name="da" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatures_stage_id">
+          <End Role="Stages" Type="Self.Stage" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Candidatures" Type="Self.Candidature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stages">
+              <PropertyRef Name="stage_id" />
+            </Principal>
+            <Dependent Role="Candidatures">
+              <PropertyRef Name="stage_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Compagnies_compagnie_id">
+          <End Role="Personnes" Type="Self.Personne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Compagnies" Type="Self.Compagny" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnes">
+              <PropertyRef Name="personne_id" />
+            </Principal>
+            <Dependent Role="Compagnies">
+              <PropertyRef Name="personne_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stages_compagnie_id">
+          <End Role="Compagnies" Type="Self.Compagny" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stages" Type="Self.Stage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnies">
+              <PropertyRef Name="compagnie_id" />
+            </Principal>
+            <Dependent Role="Stages">
+              <PropertyRef Name="compagnie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Cvs_da">
+          <End Role="Etudiants" Type="Self.Etudiant" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cvs" Type="Self.Cv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etudiants">
+              <PropertyRef Name="da" />
+            </Principal>
+            <Dependent Role="Cvs">
+              <PropertyRef Name="da" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Etudiants_personne_id">
+          <End Role="Personnes" Type="Self.Personne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Etudiants" Type="Self.Etudiant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnes">
+              <PropertyRef Name="personne_id" />
+            </Principal>
+            <Dependent Role="Etudiants">
+              <PropertyRef Name="personne_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Etudiants_superviseurs_id">
+          <End Role="Superviseurs" Type="Self.Superviseur" Multiplicity="1" />
+          <End Role="Etudiants" Type="Self.Etudiant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superviseurs">
+              <PropertyRef Name="superviseurs_id" />
+            </Principal>
+            <Dependent Role="Etudiants">
+              <PropertyRef Name="superviseurs_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Superviseurs_persomnne_id">
+          <End Role="Personnes" Type="Self.Personne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Superviseurs" Type="Self.Superviseur" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnes">
+              <PropertyRef Name="personne_id" />
+            </Principal>
+            <Dependent Role="Superviseurs">
+              <PropertyRef Name="personne_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Telephones_id_type">
+          <End Role="Types_Telephones" Type="Self.Types_Telephones" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Telephones" Type="Self.Telephone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types_Telephones">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="Telephones">
+              <PropertyRef Name="id_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tp2bd2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Candidatures" EntityType="Self.Candidature" />
+          <EntitySet Name="Compagnies" EntityType="Self.Compagny" />
+          <EntitySet Name="Cvs" EntityType="Self.Cv" />
+          <EntitySet Name="Etudiants" EntityType="Self.Etudiant" />
+          <EntitySet Name="logs" EntityType="Self.log" />
+          <EntitySet Name="Personnes" EntityType="Self.Personne" />
+          <EntitySet Name="Stages" EntityType="Self.Stage" />
+          <EntitySet Name="Superviseurs" EntityType="Self.Superviseur" />
+          <EntitySet Name="Telephones" EntityType="Self.Telephone" />
+          <EntitySet Name="Types_Telephones" EntityType="Self.Types_Telephones" />
+          <AssociationSet Name="FK_Candidatures_cv_id" Association="Self.FK_Candidatures_cv_id">
+            <End Role="Cvs" EntitySet="Cvs" />
+            <End Role="Candidatures" EntitySet="Candidatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatures_da" Association="Self.FK_Candidatures_da">
+            <End Role="Etudiants" EntitySet="Etudiants" />
+            <End Role="Candidatures" EntitySet="Candidatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatures_stage_id" Association="Self.FK_Candidatures_stage_id">
+            <End Role="Stages" EntitySet="Stages" />
+            <End Role="Candidatures" EntitySet="Candidatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Compagnies_compagnie_id" Association="Self.FK_Compagnies_compagnie_id">
+            <End Role="Personnes" EntitySet="Personnes" />
+            <End Role="Compagnies" EntitySet="Compagnies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stages_compagnie_id" Association="Self.FK_Stages_compagnie_id">
+            <End Role="Compagnies" EntitySet="Compagnies" />
+            <End Role="Stages" EntitySet="Stages" />
+          </AssociationSet>
+          <AssociationSet Name="Cvs_da" Association="Self.Cvs_da">
+            <End Role="Etudiants" EntitySet="Etudiants" />
+            <End Role="Cvs" EntitySet="Cvs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Etudiants_personne_id" Association="Self.FK_Etudiants_personne_id">
+            <End Role="Personnes" EntitySet="Personnes" />
+            <End Role="Etudiants" EntitySet="Etudiants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Etudiants_superviseurs_id" Association="Self.FK_Etudiants_superviseurs_id">
+            <End Role="Superviseurs" EntitySet="Superviseurs" />
+            <End Role="Etudiants" EntitySet="Etudiants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Superviseurs_persomnne_id" Association="Self.FK_Superviseurs_persomnne_id">
+            <End Role="Personnes" EntitySet="Personnes" />
+            <End Role="Superviseurs" EntitySet="Superviseurs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Telephones_id_type" Association="Self.FK_Telephones_id_type">
+            <End Role="Types_Telephones" EntitySet="Types_Telephones" />
+            <End Role="Telephones" EntitySet="Telephones" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="tp2bd2ModelStoreContainer" CdmEntityContainer="tp2bd2Entities">
+          <EntitySetMapping Name="Candidatures">
+            <EntityTypeMapping TypeName="tp2bd2Model.Candidature">
+              <MappingFragment StoreEntitySet="Candidatures">
+                <ScalarProperty Name="candidature_id" ColumnName="candidature_id" />
+                <ScalarProperty Name="stage_id" ColumnName="stage_id" />
+                <ScalarProperty Name="da" ColumnName="da" />
+                <ScalarProperty Name="cv_id" ColumnName="cv_id" />
+                <ScalarProperty Name="est_accepter" ColumnName="est_accepter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Compagnies">
+            <EntityTypeMapping TypeName="tp2bd2Model.Compagny">
+              <MappingFragment StoreEntitySet="Compagnies">
+                <ScalarProperty Name="compagnie_id" ColumnName="compagnie_id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="personne_id" ColumnName="personne_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cvs">
+            <EntityTypeMapping TypeName="tp2bd2Model.Cv">
+              <MappingFragment StoreEntitySet="Cvs">
+                <ScalarProperty Name="cv_id" ColumnName="cv_id" />
+                <ScalarProperty Name="da" ColumnName="da" />
+                <ScalarProperty Name="CV1" ColumnName="CV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etudiants">
+            <EntityTypeMapping TypeName="tp2bd2Model.Etudiant">
+              <MappingFragment StoreEntitySet="Etudiants">
+                <ScalarProperty Name="da" ColumnName="da" />
+                <ScalarProperty Name="personne_id" ColumnName="personne_id" />
+                <ScalarProperty Name="superviseurs_id" ColumnName="superviseurs_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logs">
+            <EntityTypeMapping TypeName="tp2bd2Model.log">
+              <MappingFragment StoreEntitySet="logs">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="action_type" ColumnName="action_type" />
+                <ScalarProperty Name="date_action" ColumnName="date_action" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personnes">
+            <EntityTypeMapping TypeName="tp2bd2Model.Personne">
+              <MappingFragment StoreEntitySet="Personnes">
+                <ScalarProperty Name="personne_id" ColumnName="personne_id" />
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stages">
+            <EntityTypeMapping TypeName="tp2bd2Model.Stage">
+              <MappingFragment StoreEntitySet="Stages">
+                <ScalarProperty Name="stage_id" ColumnName="stage_id" />
+                <ScalarProperty Name="compagnie_id" ColumnName="compagnie_id" />
+                <ScalarProperty Name="poste" ColumnName="poste" />
+                <ScalarProperty Name="lieux" ColumnName="lieux" />
+                <ScalarProperty Name="date_debut" ColumnName="date_debut" />
+                <ScalarProperty Name="date_fin" ColumnName="date_fin" />
+                <ScalarProperty Name="salaire" ColumnName="salaire" />
+                <ScalarProperty Name="heure_semaine" ColumnName="heure_semaine" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Superviseurs">
+            <EntityTypeMapping TypeName="tp2bd2Model.Superviseur">
+              <MappingFragment StoreEntitySet="Superviseurs">
+                <ScalarProperty Name="superviseurs_id" ColumnName="superviseurs_id" />
+                <ScalarProperty Name="personne_id" ColumnName="personne_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Telephones">
+            <EntityTypeMapping TypeName="tp2bd2Model.Telephone">
+              <MappingFragment StoreEntitySet="Telephones">
+                <ScalarProperty Name="personne_id" ColumnName="personne_id" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types_Telephones">
+            <EntityTypeMapping TypeName="tp2bd2Model.Types_Telephones">
+              <MappingFragment StoreEntitySet="Types_Telephones">
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

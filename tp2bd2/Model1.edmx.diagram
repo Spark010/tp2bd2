@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="60a49c05a4c04800a91f2d6164d51acc" Name="Diagram1">
+        <EntityTypeShape EntityType="tp2bd2Model.Candidature" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Compagny" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Cv" Width="1.5" PointX="7.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Etudiant" Width="1.5" PointX="5.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.log" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Personne" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Stage" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Superviseur" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Telephone" Width="1.5" PointX="12" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="tp2bd2Model.Types_Telephones" Width="1.5" PointX="9.75" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="tp2bd2Model.FK_Candidatures_cv_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Candidatures_da" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Candidatures_stage_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Compagnies_compagnie_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Stages_compagnie_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.Cvs_da" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Etudiants_personne_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Etudiants_superviseurs_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Superviseurs_persomnne_id" ManuallyRouted="false" />
+        <AssociationConnector Association="tp2bd2Model.FK_Telephones_id_type" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
